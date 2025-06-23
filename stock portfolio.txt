@@ -1,0 +1,39 @@
+stock_prices = {
+    "AAPL": 180,
+    "TSLA": 250,
+    "GOOGL": 140,
+    "MSFT": 320
+}
+portfolio = {}
+print("Enter stock name and quantity (type 'done' to finish):")
+while True:
+    stock = input("Stock name: ").upper()
+    if stock == 'DONE':
+        break
+    if stock not in stock_prices:
+        print("Stock not found in price list.")
+        continue
+    try:
+         quantity = int(input("Quantity: "))
+        portfolio[stock] = portfolio.get(stock, 0) + quantity
+    except ValueError:
+        print("Please enter a valid number.")
+total_investment = 0
+print("\n--- Investment Summary ---")
+for stock, qty in portfolio.items():
+    price = stock_prices[stock]
+    value = price * qty
+    print(f"{stock}: {qty} shares x ₹{price} = ₹{value}")
+    total_investment += value
+
+print(f"\nTotal Investment Value: ₹{total_investment}")
+save = input("Do you want to save this to a file? (yes/no): ").lower()
+if save == 'yes':
+    with open("portfolio_summary.txt", "w") as file:
+ file.write("--- Investment Summary ---\n")
+        for stock, qty in portfolio.items():
+            price = stock_prices[stock]
+            value = price * qty
+            file.write(f"{stock}: {qty} shares x ₹{price} = ₹{value}\n")
+        file.write(f"\nTotal Investment Value: ₹{total_investment}\n")
+    print("Summary saved to 'portfolio_summary.txt'")
